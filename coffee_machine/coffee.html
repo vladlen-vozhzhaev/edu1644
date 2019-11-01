@@ -58,18 +58,34 @@
             </div>
             <div class="col-6">
               <input id="balance" class="form-control" type="text">
+              <img id="atm" src="img/bill_acc.png" alt="">
             </div>
           </div>
         </div>
       </div>
+      <img src="img/50rub.jpg" alt="">
+      <img src="img/100rub.jpg" alt="">
+      <img src="img/500rub.jpg" alt="">
     </div>
     <script>
       function getCoffee(cost) {
-        if (cost<=balance.value)
+        if (cost<=balance.value){
           display.innerText = 'Кофе готов';
+          balance.value-=cost;
+        }
         else 
           display.innerText = 'Недостаточно средств!';
       }
+      
+      document.onmousedown = function(event){
+        try {
+          if (!event.target.src.endsWith("rub.jpg")) return;
+        }catch(error){
+          return;
+        }
+        console.log("Продолжаем работу!");
+        
+      };
     </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
