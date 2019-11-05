@@ -54,7 +54,10 @@
         <div class="col-6">
           <div class="row">
             <div class="col-6">
-              <div id="display" class="p-3"></div>
+              <div id="display" class="p-3">
+                <span>Выберите кофе</span>
+                <span id="balanceDisplay"></span>
+              </div>
             </div>
             <div class="col-6">
               <input id="balance" class="form-control" type="text">
@@ -63,9 +66,9 @@
           </div>
         </div>
       </div>
-      <img src="img/50rub.jpg" alt="">
-      <img src="img/100rub.jpg" alt="">
-      <img src="img/500rub.jpg" alt="">
+      <img src="img/50rub.jpg" alt="50">
+      <img src="img/100rub.jpg" alt="100">
+      <img src="img/500rub.jpg" alt="500">
     </div>
     <script>
       function getCoffee(cost) {
@@ -83,8 +86,42 @@
         }catch(error){
           return;
         }
-        console.log("Продолжаем работу!");
+        let bill = event.target;
+        bill.ondragstart = function() {
+          return false;
+        };
+        bill.style.position = "absolute";
+        bill.style.zIndex = 10;
+        bill.style.transform="rotate(90deg)";
+        moveAt(event.pageX, event.pageY);
         
+        function moveAt(pageX, pageY) {
+          bill.style.left = pageX-bill.offsetWidth/2+'px';
+          bill.style.top  = pageY-bill.offsetHeight/2+'px';
+        }
+        function onMouseMove(event) {
+          moveAt(event.pageX, event.pageY);
+        }
+        document.addEventListener('mousemove',onMouseMove);
+        
+        bill.onmouseup = function(event){
+          document.removeEventListener('mousemove', onMouseMove);
+          bill.style.zIndex = 5;
+          bill.onmouseup = null;
+          let bill_left = bill.getBoundingClientRect().left;
+          let bill_right= bill_left+bill.getBoundingClientRect().width;
+          let bill_top  = bill.getBoundingClientRect().top;
+          let atm_left  = atm.getBoundingClientRect().left;
+          let atm_right = atm_left+atm.getBoundingClientRect().width;
+          let atm_top   = atm.getBoundingClientRect().top;
+          let atm_bottom= atm_top+atm.getBoundingClientRect().height/3;
+          if (bill_left>atm_left && bill_right<atm_right
+            &&atm_top<bill_top && bill_top<atm_bottom) {
+            bill.style.display = "none";
+            balance.value = +balance.value + +bill.alt;
+            balanceDisplay.innerText = "Баланс: "+balance.value;
+          }
+        }
       };
     </script>
     <!-- Optional JavaScript -->
