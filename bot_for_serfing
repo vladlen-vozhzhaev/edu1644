@@ -1,0 +1,26 @@
+// ==UserScript==
+// @name         New Userscript
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  try to take over the world!
+// @author       You
+// @match        https://www.google.com/*
+// @match        https://xn----7sbab5aqcbiddtdj1e1g.xn--p1ai/*
+// @grant        none
+// ==/UserScript==
+
+try {
+    document.getElementsByName("q")[0].value="Гобой";
+    document.getElementsByName("btnK")[1].click();
+}catch(e){
+    if(location.host.indexOf("google")!=-1)
+        document.querySelectorAll("a[href*='https://xn----7sbab5aqcbiddtdj1e1g.xn--p1ai']")[0].click();
+    else {
+        let links = document.links;
+        links[getRandom(0,links.length)].click();
+    }
+}
+
+function getRandom(min,max){
+	return Math.floor(Math.random()*(max-min)+min);
+}
