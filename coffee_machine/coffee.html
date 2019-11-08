@@ -27,6 +27,27 @@
         border:4px groove black;
         color:white;
       }
+      img[src$="rub.jpg"]:hover {
+        cursor:pointer;
+        filter:contrast(200%);
+      }
+      .coffee_item>img:hover{
+        cursor:pointer; 
+        filter:contrast(200%);
+      }
+      #atm{width:100%;}
+      #change {
+        height:150px;
+        background:gray;
+        border:3px solid black;
+        margin:10px 0;
+        position:relative;
+      }
+      
+      img[src$="rub.png"]{
+        width:75px;
+        position:absolute;
+      }
     </style>
   </head>
   <body>
@@ -38,15 +59,15 @@
             Американо - 50р.
           </div>
           <div class="coffee_item my-3">
-            <img src="img/coffee.jpg" class="rounded-circle" alt="">
+            <img onclick="getCoffee(59)" src="img/coffee.jpg" class="rounded-circle" alt="">
             Латте - 59р.
           </div>
           <div class="coffee_item my-3">
-            <img src="img/coffee.jpg" class="rounded-circle" alt="">
+            <img onclick="getCoffee(63)" src="img/coffee.jpg" class="rounded-circle" alt="">
             Каппуччино - 63р.
           </div>
           <div class="coffee_item my-3">
-            <img src="img/coffee.jpg" class="rounded-circle" alt="">
+            <img onclick="getCoffee(41)" src="img/coffee.jpg" class="rounded-circle" alt="">
             Эспрессо - 41р.
           </div>
         </div>
@@ -55,13 +76,15 @@
           <div class="row">
             <div class="col-6">
               <div id="display" class="p-3">
-                <span>Выберите кофе</span>
+                <span>Выберите кофе</span><br>
                 <span id="balanceDisplay"></span>
               </div>
+              <button onclick="getChange(balance.value);">Сдача</button>
             </div>
             <div class="col-6">
               <input id="balance" class="form-control" type="text">
               <img id="atm" src="img/bill_acc.png" alt="">
+              <div id="change"></div>
             </div>
           </div>
         </div>
@@ -123,6 +146,32 @@
           }
         }
       };
+      
+      function getChange(sum){
+        let max_left = change.getBoundingClientRect().width;
+        let max_top  = change.getBoundingClientRect().height;
+        let left = getRandom(0, max_left);
+        let top  = getRandom(0, max_top);
+        if(sum>=10) {
+          change.innerHTML += `<img style="left:10px; top:10px;" src="img/10rub.png">`;
+          getChange(sum-10);
+        }
+        else if(sum>=5){
+          change.innerHTML += `<img src="img/5rub.png">`;
+          getChange(sum-5);
+        }
+        else if(sum>=2){
+          change.innerHTML += `<img src="img/2rub.png">`;
+          getChange(sum-2);
+        }
+        else if(sum>=1){
+          change.innerHTML += `<img src="img/1rub.png">`;
+        }
+      }
+      
+      function getRandom(min,max){
+        return Math.random()*(max-min)+min; 
+      }
     </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
