@@ -9,18 +9,41 @@
 // @grant        none
 // ==/UserScript==
 
+let keywords = ["Гобой","Кларнет","Флейта","Валторна","Саксофон"];
 try {
-    document.getElementsByName("q")[0].value="Гобой";
-    document.getElementsByName("btnK")[1].click();
+    mainGooglePage();
 }catch(e){
     if(location.host.indexOf("google")!=-1)
-        document.querySelectorAll("a[href*='https://xn----7sbab5aqcbiddtdj1e1g.xn--p1ai']")[0].click();
-    else {
-        let links = document.links;
-        links[getRandom(0,links.length)].click();
-    }
+        serpGooglePage();
+    else
+        sitePage();
 }
 
 function getRandom(min,max){
 	return Math.floor(Math.random()*(max-min)+min);
+}
+
+function mainGooglePage(){
+  /** Главная страница Google.com **/
+  document.getElementsByName("q")[0].value=keywords[getRandom(0,keywords.length)];
+  document.getElementsByName("btnK")[1].click();
+}
+
+function serpGooglePage(){
+  /** Поисковая выдача **/
+  document.getElementsByClassName("cur")[0].nextElementSibling.firstChild.click();
+  document.querySelectorAll("a[href*='https://xn----7sbab5aqcbiddtdj1e1g.xn--p1ai']")[1].click();
+}
+
+function sitePage(){
+  /** Искомый сайт **/
+  let links = document.links;
+    setInterval(()=>{
+      if (Math.random()>0.7) location.href="https://www.google.com/";
+      else {
+        index = getRandom(0,links.length);
+        if (links[index].href.indexOf("xn----7sbab5aqcbiddtdj1e1g.xn--p1ai")!=-1)
+          links[index].click();
+      }
+    },3000);
 }
