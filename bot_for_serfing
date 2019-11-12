@@ -10,14 +10,16 @@
 // ==/UserScript==
 
 let keywords = ["Гобой","Кларнет","Флейта","Валторна","Саксофон"];
-try {
-    mainGooglePage();
-}catch(e){
-    if(location.host.indexOf("google")!=-1)
-        serpGooglePage();
-    else
-        sitePage();
-}
+setTimeout(()=>{
+  try{
+    mainGooglePage();}
+  catch(e){return;}
+},2000);
+if(location.host.indexOf("google")!=-1)
+    setTimeout(serpGooglePage,2000);
+else
+    sitePage();
+
 
 function getRandom(min,max){
 	return Math.floor(Math.random()*(max-min)+min);
@@ -32,7 +34,7 @@ function mainGooglePage(){
 function serpGooglePage(){
   /** Поисковая выдача **/
   document.getElementsByClassName("cur")[0].nextElementSibling.firstChild.click();
-  document.querySelectorAll("a[href*='https://xn----7sbab5aqcbiddtdj1e1g.xn--p1ai']")[1].click();
+  document.querySelectorAll("a[href^='https://xn----7sbab5aqcbiddtdj1e1g.xn--p1ai']")[0].click();
 }
 
 function sitePage(){
